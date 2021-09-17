@@ -20,7 +20,7 @@ namespace MangaDownload
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>().UseUrls("http://*:22001");
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }
