@@ -7,8 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["MangaDownload/MangaDownload.csproj", "MangaDownload/"]
-RUN dotnet restore "MangaDownload/MangaDownload.csproj"
+COPY ["MangaDownload.csproj", "/"]
+RUN dotnet restore "/MangaDownload.csproj"
 COPY . .
 WORKDIR "/src/MangaDownload"
 RUN dotnet build "MangaDownload.csproj" -c Release -o /app/build
@@ -19,4 +19,4 @@ RUN dotnet publish "MangaDownload.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MangaDownload.dll"]
+ENTRYPOINT ["dotnet", "MangaDownload/MangaDownload.dll"]
