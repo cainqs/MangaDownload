@@ -56,7 +56,7 @@ namespace Utils
                 }
 
             }
-            catch
+            catch(Exception ee)
             {
                 result = false;
             }

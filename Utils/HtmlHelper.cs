@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,6 +57,66 @@ namespace Utils
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                 ret = await client.PostAsync(url, content).Result.Content.ReadAsStringAsync();
+            }
+
+            return ret;
+        }
+
+        public async static Task<string> PostFromUrlencoded(string url, Dictionary<string, string> data)
+        {
+            string ret = "";
+
+            using (var client = new HttpClient())
+            {
+                var content = new FormUrlEncodedContent(data);
+
+                ret = await client.PostAsync(url, content).Result.Content.ReadAsStringAsync();
+            }
+
+            return ret;
+        }
+
+        public async static Task<string> PostFiles(string url, string filePath, int page, int size)
+        {
+            string ret = "";
+
+            using (var client = new HttpClient())
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    FileStream fs = new(filePath, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new(fs);
+
+                    fs.Seek(size * page, SeekOrigin.Begin);
+
+                    ByteArrayContent content = new(br.ReadBytes(size)) ;
+                    formData.Add(content, "files", Path.GetFileName(filePath));
+
+                    var request = new HttpRequestMessage(HttpMethod.Post, url)
+                    {
+                        Content = formData
+                    };
+
+                    var response = await client.SendAsync(request);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        using var sr = new StreamReader(await response.Content.ReadAsStreamAsync(), Encoding.UTF8);
+                        ret = sr.ReadToEnd();
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        public async static Task<string> Get(string url)
+        {
+            var ret = "";
+
+            using (var client = new HttpClient())
+            {
+                ret = await client.GetStringAsync(url);
             }
 
             return ret;

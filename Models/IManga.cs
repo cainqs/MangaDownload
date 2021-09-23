@@ -5,12 +5,16 @@ using System.Threading.Tasks;
 
 namespace MangeDownload.Models
 {
-    public interface IManga
+    public interface IMangaSite
     {
-        Task<List<MangaInfo>> Search(string mangaName);
+        MangaSiteModel siteModel { get; set; }
+        Task<List<IMangaInfo>> Search(string mangaName);
+    }
 
-        Task<MangaInfo> AddAdditionalInfo(MangaInfo mangaInfo);
-
-        Task<string> Download(string folder, MangaInfo mangaInfo, List<(string, string)> downloadUrls);
+    public interface IMangaInfo
+    {
+        MangaInfo mi { get; set; }
+        Task AddAdditionalInfo();
+        Task<string> Download(string folder, List<DetailUrl> downloadUrls);
     }
 }

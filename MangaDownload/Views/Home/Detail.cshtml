@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never">
+    <title>@ViewData["Title"] - 漫画下载</title>
+</head>
+
+<body>
+    <div id="app">
+        <span id="classPath" style="display:none">@ViewData["mangaInfoClassPath"].ToString()</span>
+
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img :src="manga.mangaPic" style="width:100%;height:auto">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">{{manga.mangaName}}</h5>
+                        <p class="card-text">{{manga.lastChapter}}</p>
+                        <p class="card-text"><small class="text-muted">{{manga.lastUpdateTimeStr}}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-info" v-on:click="selectAll(true)">全选</button>
+        <button type="button" class="btn btn-warning" v-on:click="selectAll(false)">取消全选</button>
+
+        <button type="button" class="btn btn-success" v-on:click="download()">下载</button>
+
+        <div class="container-fluid">
+            <div class="row row-cols-8">
+                <div style="border:1px solid" class="col chapter" v-for="chapter in manga.urls" v-bind:data-title="chapter.title" v-bind:data-url="chapter.url" v-on:click="select(event)">{{chapter.title}}</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                manga: {},
+                loaded: false,
+                selectUrls: []
+            },
+            created: function () {
+                this.getManga();
+            },
+            methods: {
+                getManga: function () {
+                    var vm = this;
+
+                    $.ajax({ url: "/Home/GetMangaDetail?site=" + this.getQueryVariable("site") + "&mi=" + this.getQueryVariable("mi"), method: "GET", async: true })
+                        .done(function (data) {
+                            vm.manga = data;
+                            vm.loaded = true;
+                        });
+                },
+
+                getQueryVariable: function (variable) {
+                    var query = window.location.search.substring(1);
+                    var vars = query.split("&");
+                    for (var i = 0; i < vars.length; i++) {
+                        var pair = vars[i].split("=");
+                        if (pair[0] == variable) {
+                            return pair[1];
+                        }
+                    }
+                    return (false);
+                },
+
+                selectAll: function (select) {
+                    if (select) {
+                        $(".chapter").addClass("bg-success");
+                    } else {
+                        $(".chapter").removeClass("bg-success");
+                    }
+                },
+
+                select: function (event) {
+                    $(event.target).toggleClass("bg-success");
+                },
+
+                download: function () {
+                    var vm = this;
+
+                    $(".chapter.bg-success").each(function (index, element) {
+                        vm.selectUrls.push({ title: $(element).data("title"), url: $(element).data("url") });
+                    });
+
+                    var site = $("#classPath").text();
+
+                    var entity = { "urls": vm.selectUrls, "mi": vm.manga, "site": site };
+                    var jsonStr = JSON.stringify(entity);
+
+                    $.ajax({ url: "/Home/Download", async: false, method: "POST", /*contentType: "application/json;charset=UTF-8", dataType: "JSON",*/ data: { jsonStr: jsonStr } })
+                        .done(function (ret) {
+                            alert(ret.message);
+                        })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

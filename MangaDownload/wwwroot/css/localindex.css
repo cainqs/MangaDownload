@@ -1,0 +1,44 @@
+﻿.content {
+    overflow: hidden;
+    position: absolute;
+    top: 56px;
+    bottom: 60px;
+    left: 300px;
+    right: 0px;
+    overflow: auto;
+    background-color: #343a40 !important;
+    overflow: auto;
+}
+
+.sideNav {
+    padding: 0px;
+    position: absolute;
+    left: 0px;
+    top: 56px;
+    bottom: 60px;
+    width: 300px; /* same as .content left */
+    background-color: #343a40 !important;
+    border-right: 1px solid #000;
+    z-index: 1;
+    overflow: auto;
+}
+
+.progress {
+    padding: 0px;
+    position: fixed;
+    left: 300px;
+    right: 0px;
+    bottom: 60px;
+    z-index: 1;
+}
+
+.content-list-group {
+    padding: 0px;
+    position: fixed;
+    left: 300px;
+    right: 0px;
+    top: 106px;
+    bottom: 77px;
+    overflow: auto;
+    z-index: 1;
+}

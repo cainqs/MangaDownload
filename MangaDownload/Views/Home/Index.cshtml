@@ -1,8 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never">
+    <title>@ViewData["Title"] - 漫画下载</title>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <script src="~/js/fileutility.js"></script>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div v-if="loaded">
+            <div class="media">
+                <img :src="homeVm.baiduUserInfo.avatarUrl" class="mr-3" alt="...">
+                <div class="media-body">
+                    <h5 class="mt-0">{{homeVm.baiduUserInfo.netDiskName}} - {{homeVm.baiduUserInfo.vipType}}</h5>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" role="progressbar" :style="{width: (homeVm.baiduUserInfo.freeSpace / homeVm.baiduUserInfo.totalSpace) * 100 + '%'}"></div>
+                    </div>
+                    <p>网盘空间总共: {{homeVm.baiduUserInfo.totalSpaceStr}}, 使用了{{homeVm.baiduUserInfo.usedSpaceStr}}:, 剩余{{homeVm.baiduUserInfo.freeSpaceStr}}</p>
+                </div>
+            </div>
+
+            <div class="input-group mb-3" style="margin:auto; margin-top:260px; width:80%">
+                <div class="input-group-prepend">
+                    <select class="btn btn-info" v-model="homeVm.selectedSite">
+                        <option class="dropdown-item" v-for="(site, index) in homeVm.mangaSites" v-bind:value="site.siteClassPath">{{site.showTitle}}</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" v-model="homeVm.searchContent">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" v-on:click="search()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+
+            data: {
+                homeVm: {},
+                loaded: false
+            },
+
+            mounted: function () {
+                this.getHomeVm();
+            },
+
+            methods: {
+                getHomeVm: function () {
+                    var vm = this;
+
+                    $.ajax({ url: "/Home/GetHomePageVM", method: "GET", async: true })
+                        .done(function (ret) {
+                            vm.homeVm = ret.data;
+                            vm.loaded = true
+                        });
+                },
+
+                search: function () {
+                    var vm = this;
+
+                    if (vm.homeVm.selectedSite == undefined || vm.homeVm.selectedSite == '') {
+                        alert("请选择漫画源");
+                    }
+                    else if (vm.homeVm.searchContent == undefined || vm.homeVm.searchContent == '') {
+                        alert("请输入要选择的内容");
+                    } else {
+                        window.open("/home/Search?content=" + vm.homeVm.searchContent + "&site=" + vm.homeVm.selectedSite);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

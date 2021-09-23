@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MangaDownloadAndUpload": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

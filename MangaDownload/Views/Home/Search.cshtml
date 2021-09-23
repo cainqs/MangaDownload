@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never">
+    <title>@ViewData["Title"] - 漫画下载</title>
+</head>
+
+<body>
+    <div id="app">
+        <span id="classPath" style="display:none">@ViewData["mangaInfoClassPath"].ToString()</span>
+        <div class="container-fluid mt-3" v-if="loaded">
+            <div class="row row-cols-5">
+                <div class="col mb-2" v-for="item in items">
+                    <div class="card text-white bg-dark">
+                        <img v-bind:src="item.mangaPic" class="card-img-top">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <a v-bind:href="getDetailUrl(item)"><h6 class="card-title mr-auto">{{item.mangaName}}</h6></a>
+                            </div>
+                            <p style="font-size:11px;" class="card-text">最新章节 《{{item.lastChapter}}》</p>
+                            <p style="font-size:11px;" class="card-text">更新于 {{item.lastUpdateTimeStr}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                items: {},
+                loaded: false
+            },
+            created: function () {
+                this.getItems();
+            },
+            methods: {
+                getItems: function () {
+                    var vm = this;
+
+                    $.ajax({ url: "/Home/GetSearcResult?content=" + this.getQueryVariable("content") + "&site=" + this.getQueryVariable("site"), method: "GET", async: true })
+                        .done(function (data) {
+                            vm.items = data;
+                            vm.loaded = true;
+                        });
+                },
+
+                getQueryVariable: function (variable) {
+                    var query = window.location.search.substring(1);
+                    var vars = query.split("&");
+                    for (var i = 0; i < vars.length; i++) {
+                        var pair = vars[i].split("=");
+                        if (pair[0] == variable) {
+                            return pair[1];
+                        }
+                    }
+                    return (false);
+                },
+
+                getDetailUrl(item) {
+                    var site = encodeURI($("#classPath").text());
+                    return "/Home/Detail?site=" + site + "&mi=" + encodeURI(JSON.stringify(item));
+                }
+            }
+        })
+    </script>
+</body>
+</html>

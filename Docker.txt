@@ -1,0 +1,3 @@
+docker pull rabbitmq:management
+
+docker run -dit --name Myrabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 21005:15672 -p 21006:5672 rabbitmq:management
