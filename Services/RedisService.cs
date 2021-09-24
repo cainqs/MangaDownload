@@ -26,7 +26,7 @@ namespace Services
             }
             else
             {
-                redisManger = new CSRedisClient("mangaredis:6379,password=123456");
+                redisManger = new CSRedisClient("mangaredis:6390,password=123456");
             }
         }
 

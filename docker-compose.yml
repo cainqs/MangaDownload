@@ -25,9 +25,9 @@ services:
       #  - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
       #  - ./logs:/logs
       command:
-        redis-server --requirepass 123456 --appendonly yes
+        redis-server --requirepass 123456 --appendonly yes --port 6390
       ports:
-        - 6379:6379
+        - 6390:6390
       
     mangamvc:
       build:
