@@ -12,12 +12,12 @@ namespace Services
     {
         public static string GenerateFolder(string folder, string mangeName, int count)
         {
-            if (!folder.EndsWith("\\") && !folder.EndsWith("/"))
+            if (!folder.EndsWith(Path.DirectorySeparatorChar))
             {
-                folder += "\\";
+                folder += Path.DirectorySeparatorChar;
             }
 
-            var tempFolder = folder + mangeName + "_" + DateTime.Now.ToString("yyy-MM-dd-HH-mm-ss") + "-" + count + "\\";
+            var tempFolder = folder + mangeName + "_" + DateTime.Now.ToString("yyy-MM-dd-HH-mm-ss") + "-" + count + Path.DirectorySeparatorChar;
 
             if (!Directory.Exists(tempFolder))
             {
@@ -29,9 +29,9 @@ namespace Services
 
         public static string GenerateSubFolder(string folder)
         {
-            if (!folder.EndsWith("\\") && !folder.EndsWith("/"))
+            if (!folder.EndsWith(Path.DirectorySeparatorChar))
             {
-                folder += "\\";
+                folder += Path.DirectorySeparatorChar;
             }
 
             if (!Directory.Exists(folder))

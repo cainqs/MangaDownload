@@ -38,33 +38,33 @@ namespace UnitTest
 
             //var zip = MangaService.Zip(root, @"c:\manga\zip\" + manga.MangaName + ".zip");
 
-            //var ret = BaiduOauthService.FileSizeAndBlockCount(@"c:\177-俏妞咖啡馆.zip");
+            var ret = BaiduOauthService.FileSizeAndBlockCount(@"c:\177-俏妞咖啡馆.zip");
 
 
-            //var totalUpload = 0;
-            //var currentUpload = 0;
+            var totalUpload = 0;
+            var currentUpload = 0;
 
-            //var filePath = @"c:\95 李賢秀…和我去摩鐵吧.pdf";
-            //var uploadPath = "/apps/上传漫画/健身教练.zip";
+            var filePath = @"c:\95 李賢秀…和我去摩鐵吧.pdf";
+            var uploadPath = "/apps/上传漫画/健身教练.zip";
             var token = "121.a336e92f23c52df156f731667674f511.YQl_55QFSUkIthCfZzKXc4pFD5_NbnYu6lPUjQO.uWKRXA";
 
-            //var precreateModel = BaiduOauthService.PrecreateMD5(filePath, uploadPath);
+            var precreateModel = BaiduOauthService.PrecreateMD5(filePath, uploadPath);
 
-            //var precreateResponse = BaiduOauthService.Precreate(precreateModel, token).Result;
+            var precreateResponse = BaiduOauthService.Precreate(precreateModel, token).Result;
 
-            //totalUpload = precreateModel.part_count;
+            totalUpload = precreateModel.part_count;
 
-            //while (currentUpload < totalUpload)
-            //{
-            //    var tempResponse = BaiduOauthService.PreUpload(precreateResponse, HttpUtility.UrlEncode(uploadPath), token, filePath, currentUpload, 4 * 1024 * 1024).Result;
+            while (currentUpload < totalUpload)
+            {
+                var tempResponse = BaiduOauthService.PreUpload(precreateResponse, HttpUtility.UrlEncode(uploadPath), token, filePath, currentUpload, 4 * 1024 * 1024).Result;
 
-            //    if (tempResponse != null && tempResponse.request_id != null && !string.IsNullOrEmpty(tempResponse.request_id))
-            //    {
-            //        currentUpload++;
-            //    }
-            //}
+                if (tempResponse != null && tempResponse.request_id != null && !string.IsNullOrEmpty(tempResponse.request_id))
+                {
+                    currentUpload++;
+                }
+            }
 
-            //var messsage = BaiduOauthService.FinishUpload(precreateModel, precreateResponse.uploadid, token).Result;
+            var messsage = BaiduOauthService.FinishUpload(precreateModel, precreateResponse.uploadid, token).Result;
 
             var ui = BaiduOauthService.GetUserInfo(token).Result;
             var quato = BaiduOauthService.Quota(token).Result;

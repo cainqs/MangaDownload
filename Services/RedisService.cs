@@ -18,7 +18,7 @@ namespace Services
 
         static RedisService()
         {
-            redisManger = new CSRedisClient("127.0.0.1:6379,password=123456");
+            redisManger = new CSRedisClient("mangaredis:6379,password=123456");
         }
 
         /// <summary>

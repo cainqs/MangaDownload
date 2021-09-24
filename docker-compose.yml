@@ -1,0 +1,51 @@
+version: '3'
+services:
+    mangarabbitmq:
+       hostname: mangarabbitmq
+       environment:
+         RABBITMQ_DEFAULT_USER: "admin"
+         RABBITMQ_DEFAULT_PASS: "admin"
+       image: "rabbitmq:3.9.5-management"
+       restart: always
+       volumes:
+         - "./data:/var/lib/rabbitmq"
+         - "./log:/var/log/rabbitmq/log"
+       ports:
+         - "15672:15672"
+         - "4369:4369"
+         - "5672:5672"
+         - "25672:25672"
+
+    mangaredis:
+      image: redis
+      container_name: mangaredis
+      restart: always
+      volumes:
+        - ./datadir:/data
+        - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+        - ./logs:/logs
+      command:
+        redis-server --requirepass 123456 --appendonly yes
+      ports:
+        - 6379:6379
+      
+    mangamvc:
+      build:
+        context: ./
+        dockerfile: MangaDownload/Dockerfile
+      ports:
+        - 22001:80
+      depends_on:
+        - mangarabbitmq
+        - mangaredis
+
+    mangaconsole:
+      build: 
+        context: ./
+        dockerfile: MangaDownloadAndUpload/Dockerfile
+      volumes:
+        - ./mangafile:/app/manga
+      restart: always
+      depends_on:
+        - mangarabbitmq
+        - mangaredis

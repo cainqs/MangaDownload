@@ -3,6 +3,7 @@ using MangeDownload.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -67,7 +68,7 @@ namespace Services.Manga
 
                 if (!string.IsNullOrEmpty(htmlRet))
                 {
-                    var subFolder = MangaService.GenerateSubFolder(rootFolder + FileUtility.ReplaceInvalidChar(url.Title) + "\\");
+                    var subFolder = MangaService.GenerateSubFolder(rootFolder + FileUtility.ReplaceInvalidChar(url.Title) + Path.DirectorySeparatorChar);
 
                     var picUrls = htmlRet.Substring(htmlRet.IndexOf("z_img='") + "z_img='".Length);
                     picUrls = picUrls.Substring(0, picUrls.IndexOf("'"));
