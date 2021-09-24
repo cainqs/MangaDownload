@@ -14,16 +14,18 @@ using System.Web;
 using Newtonsoft.Json;
 using Services;
 using Models;
+using Microsoft.Extensions.Configuration;
 
 namespace MangaDownload.Controllers
 {
     public class HomeController : Controller
     {
-        private List<string> MangaSites;
 
-        public HomeController(IOptions<List<string>> mangaSites)
+        private readonly IConfiguration _config;
+
+        public HomeController(IConfiguration config)
         {
-            MangaSites = mangaSites.Value;
+            this._config = config;
         }
 
         [Rights]
@@ -44,6 +46,9 @@ namespace MangaDownload.Controllers
 
                 var ui = await HomeService.GetBaiduUserInfo(token);
                 ret.BaiduUserInfo = ui;
+
+                IConfigurationSection myArraySection = _config.GetSection("MangaSite");
+                var MangaSites = myArraySection.GetChildren().ToArray().Select(x => x.Value).ToList();
 
                 foreach (var site in MangaSites)
                 {
@@ -84,14 +89,28 @@ namespace MangaDownload.Controllers
             return ret;
         }
 
-        public IActionResult Detail(string site, string mi)
+        public JsonResult DetailPost(string entity)
         {
-            var jsonStr = HttpUtility.UrlDecode(mi);
+            var model = JsonConvert.DeserializeObject<MangaTrasnData>(entity);
 
-            var model = JsonConvert.DeserializeObject<MangaInfo>(jsonStr);
+            TempData["site"] = model.site;
+            TempData["mi"] = model.mi;
+
+            return Json(new { success = true });
+        }
+
+        public IActionResult Detail()
+        {
+            var site = TempData["site"].ToString();
+            var mi = TempData["mi"].ToString();
+
+            var model = JsonConvert.DeserializeObject<MangaInfo>(mi);
 
             if (model != null)
             {
+                TempData["site"] = site;
+                TempData["mi"] = mi;
+
                 ViewData["Title"] = model.MangaName + "-详情";
                 ViewData.Add("mangaInfoClassPath", site);
             }
@@ -99,16 +118,18 @@ namespace MangaDownload.Controllers
             return View();
         }
 
-        public async Task<MangaInfo> GetMangaDetail(string site, string mi)
+        [HttpPost]
+        public async Task<MangaInfo> GetMangaDetail(string entity)
         {
+            var entityObject = JsonConvert.DeserializeObject<MangaTrasnData>(entity);
+
+            var model = JsonConvert.DeserializeObject<MangaInfo>(entityObject.mi);
+
             MangaInfo ret = new();
 
-            IMangaInfo mangaInfo = (IMangaInfo)System.Reflection.Assembly.Load("Services").CreateInstance(site, false);
-            var jsonStr = HttpUtility.UrlDecode(mi);
+            IMangaInfo mangaInfo = (IMangaInfo)System.Reflection.Assembly.Load("Services").CreateInstance(entityObject.site, false);
 
-            var model = JsonConvert.DeserializeObject<MangaInfo>(jsonStr);
-
-            if (mangaInfo != null && mi != null)
+            if (mangaInfo != null && model != null)
             {
                 mangaInfo.mi = model;
 

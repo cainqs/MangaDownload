@@ -17,7 +17,7 @@
                         <img v-bind:src="item.mangaPic" class="card-img-top">
                         <div class="card-body">
                             <div class="d-flex">
-                                <a v-bind:href="getDetailUrl(item)"><h6 class="card-title mr-auto">{{item.mangaName}}</h6></a>
+                                <a href="#" v-on:click="getDetailUrl(item)"><h6 class="card-title mr-auto">{{item.mangaName}}</h6></a>
                             </div>
                             <p style="font-size:11px;" class="card-text">最新章节 《{{item.lastChapter}}》</p>
                             <p style="font-size:11px;" class="card-text">更新于 {{item.lastUpdateTimeStr}}</p>
@@ -63,7 +63,16 @@
 
                 getDetailUrl(item) {
                     var site = encodeURI($("#classPath").text());
-                    return "/Home/Detail?site=" + site + "&mi=" + encodeURI(JSON.stringify(item));
+
+                    var model = { "site": site, "mi": JSON.stringify(item) };
+                    var jsonStr = JSON.stringify(model);
+
+                    $.ajax({ url: '/Home/DetailPost', async: false, method: "GET", data: { entity: jsonStr } })
+                        .done(function(data){
+                            if (data.success) {
+                                window.location.href = "/Home/Detail";
+                            }
+                        });
                 }
             }
         })

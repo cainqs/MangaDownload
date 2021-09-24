@@ -43,8 +43,8 @@ services:
       build: 
         context: ./
         dockerfile: MangaDownloadAndUpload/Dockerfile
-      #volumes:
-      #  - ./mangafile:/app/manga
+      volumes:
+        - ./mangafile:/app/manga
       restart: always
       depends_on:
         - mangarabbitmq

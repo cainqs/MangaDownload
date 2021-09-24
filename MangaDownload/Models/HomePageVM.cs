@@ -58,4 +58,10 @@ namespace MangaDownload.Models
         public MangaInfo mi { get; set; }
         public string site { get; set; }
     }
+
+    public class MangaTrasnData
+    { 
+        public string site { get; set; }
+        public string mi { get; set; }
+    }
 }

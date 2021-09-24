@@ -10,6 +10,7 @@
 <body>
     <div id="app">
         <span id="classPath" style="display:none">@ViewData["mangaInfoClassPath"].ToString()</span>
+        <span id="mi" style="display:none">@TempData["mi"].ToString()</span>
 
         <div class="card mb-3">
             <div class="row no-gutters">
@@ -53,7 +54,13 @@
                 getManga: function () {
                     var vm = this;
 
-                    $.ajax({ url: "/Home/GetMangaDetail?site=" + this.getQueryVariable("site") + "&mi=" + this.getQueryVariable("mi"), method: "GET", async: true })
+                    var site = $("#classPath").text();
+                    var mi = $("#mi").text();
+
+                    var model = { "site": site, "mi": mi };
+                    var jsonStr = JSON.stringify(model);
+
+                    $.ajax({ url: '/Home/GetMangaDetail', async: false, method: "POST", data: { entity: jsonStr } })
                         .done(function (data) {
                             vm.manga = data;
                             vm.loaded = true;

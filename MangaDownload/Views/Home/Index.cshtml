@@ -26,10 +26,10 @@
             <div class="input-group mb-3" style="margin:auto; margin-top:260px; width:80%">
                 <div class="input-group-prepend">
                     <select class="btn btn-info" v-model="homeVm.selectedSite">
-                        <option class="dropdown-item" v-for="(site, index) in homeVm.mangaSites" v-bind:value="site.siteClassPath">{{site.showTitle}}</option>
+                        <option class="dropdown-item" v-for="site in homeVm.mangaSites" :value="site.siteClassPath">{{site.showTitle}}</option>
                     </select>
                 </div>
-                <input type="text" class="form-control" v-model="homeVm.searchContent">
+                <input type="text" class="form-control" v-model="homeVm.searchContent" v-on:keyup.enter="search">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" v-on:click="search()">搜索</button>
                 </div>

@@ -17,6 +17,7 @@ namespace Services
 {
     public class RabbitMQService
     {
+        static bool isLocal = false;
         //Connection
         static IConnection Connection;
         //Channel
@@ -28,11 +29,22 @@ namespace Services
         {
             ConnectionFactory factory = new();
 
-            factory.HostName = "mangarabbitmq";
-            factory.UserName = "admin";
-            factory.Password = "admin";
-            factory.Port = 5672;
-            //factory.VirtualHost = "mangarabbitmq";
+            if (isLocal)
+            {
+                factory.HostName = "localhost";
+                factory.UserName = "admin";
+                factory.Password = "admin";
+                factory.Port = 21006;
+                //factory.VirtualHost = "mangarabbitmq";
+            }
+            else
+            {
+                factory.HostName = "mangarabbitmq";
+                factory.UserName = "admin";
+                factory.Password = "admin";
+                factory.Port = 5672;
+                //factory.VirtualHost = "mangarabbitmq";
+            }
 
             Connection = factory.CreateConnection();
             Channel = Connection.CreateModel();

@@ -25,7 +25,7 @@ namespace MangaDownload
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .Configure<List<string>>(Configuration.GetSection("MangaSite"))
+                .AddSingleton(Configuration)
                 .AddControllersWithViews();
         }
 

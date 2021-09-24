@@ -9,6 +9,8 @@ namespace Services
 {
     public class RedisService
     {
+        static bool isLocal = false;
+
         static CSRedisClient redisManger = null;
 
         static CSRedisClient GetClient()
@@ -18,7 +20,14 @@ namespace Services
 
         static RedisService()
         {
-            redisManger = new CSRedisClient("mangaredis:6379,password=123456");
+            if (isLocal)
+            {
+                redisManger = new CSRedisClient("localhost:6379,password=123456");
+            }
+            else
+            {
+                redisManger = new CSRedisClient("mangaredis:6379,password=123456");
+            }
         }
 
         /// <summary>
