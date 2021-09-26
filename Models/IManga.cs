@@ -15,6 +15,6 @@ namespace MangeDownload.Models
     {
         MangaInfo mi { get; set; }
         Task AddAdditionalInfo();
-        Task<string> Download(string folder, List<DetailUrl> downloadUrls);
+        Task<string> Download(string folder, List<DetailUrl> downloadUrls, IProgress<(string name, int value)> pbProgress = null, IProgress<string> infoProgress = null);
     }
 }

@@ -51,7 +51,7 @@ namespace Services.Manga
             }
         }
 
-        public async Task<string> Download(string folder, List<DetailUrl> downloadUrls)
+        public async Task<string> Download(string folder, List<DetailUrl> downloadUrls, IProgress<(string name, int value)> pbProgress = null, IProgress<string> infoProgress = null)
         {
             var rootFolder = MangaService.GenerateFolder(folder, mi.MangaName, downloadUrls.Count);
 

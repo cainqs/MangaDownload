@@ -58,48 +58,87 @@ namespace Services.Manga
             }
         }
 
-        public async Task<string> Download(string folder, List<DetailUrl> downloadUrls)
+        public async Task<string> Download(string folder, List<DetailUrl> downloadUrls, IProgress<(string name, int value)> pbProgress = null, IProgress<string> infoProgress = null)
         {
-            var rootFolder = MangaService.GenerateFolder(folder, mi.MangaName, downloadUrls.Count);
+            var rootFolder = "";
 
-            foreach (var url in downloadUrls)
+            try
             {
-                var htmlRet = await HtmlHelper.GetUrlContent(url.Url, mi.Cc);
+                rootFolder = MangaService.GenerateFolder(folder, mi.MangaName, downloadUrls.Count);
+                int chapterIndex = 1;
 
-                if (!string.IsNullOrEmpty(htmlRet))
+                if (pbProgress != null)
                 {
-                    var subFolder = MangaService.GenerateSubFolder(rootFolder + FileUtility.ReplaceInvalidChar(url.Title) + Path.DirectorySeparatorChar);
+                    pbProgress.Report(("totalmax", downloadUrls.Count));
+                }
 
-                    var picUrls = htmlRet.Substring(htmlRet.IndexOf("z_img='") + "z_img='".Length);
-                    picUrls = picUrls.Substring(0, picUrls.IndexOf("'"));
+                foreach (var url in downloadUrls)
+                {
+                    var htmlRet = await HtmlHelper.GetUrlContent(url.Url, mi.Cc);
 
-                    var pics = JsonConvert.DeserializeObject<List<string>>(picUrls);
-
-                    Dictionary<int, string> picToBeDownloaded = new();
-
-                    var index = 1;
-
-                    foreach (var p in pics)
+                    if (!string.IsNullOrEmpty(htmlRet))
                     {
-                        picToBeDownloaded.Add(index++, "https://img.xpelly.com/" + p);
+                        var subFolder = MangaService.GenerateSubFolder(rootFolder + FileUtility.ReplaceInvalidChar(url.Title) + Path.DirectorySeparatorChar);
+
+                        var picUrls = htmlRet.Substring(htmlRet.IndexOf("z_img='") + "z_img='".Length);
+                        picUrls = picUrls.Substring(0, picUrls.IndexOf("'"));
+
+                        var pics = JsonConvert.DeserializeObject<List<string>>(picUrls);
+
+                        Dictionary<int, string> picToBeDownloaded = new();
+
+                        var index = 1;
+
+                        foreach (var p in pics)
+                        {
+                            picToBeDownloaded.Add(index++, "https://img.xpelly.com/" + p);
+                        }
+
+                        int picIndex = 1;
+                        pbProgress.Report(("currentmax", picToBeDownloaded.Count));
+
+                        await Task.Run(() =>
+                        {
+                            Parallel.ForEach(picToBeDownloaded, new ParallelOptions { MaxDegreeOfParallelism = 10 }, node =>
+                            {
+                                var pic = node.Value;
+
+                                try
+                                {
+                                    new WebClient().DownloadFile(new Uri(pic), subFolder + node.Key + ".jpg");
+
+                                    if (pbProgress != null)
+                                    {
+                                        pbProgress.Report(("currentvalue", picIndex++));
+                                    }
+                                }
+                                catch (Exception ee)
+                                {
+                                    if (infoProgress != null)
+                                    {
+                                        infoProgress.Report(ee.ToString());
+                                    }
+                                }
+                            });
+                        });
                     }
 
-                    await Task.Run(() =>
+                    if (infoProgress != null)
                     {
-                        Parallel.ForEach(picToBeDownloaded, new ParallelOptions { MaxDegreeOfParallelism = 10 }, node =>
-                        {
-                            var pic = node.Value;
+                        infoProgress.Report($"下载{url.Title}完成");
+                    }
 
-                            try
-                            {
-                                new WebClient().DownloadFile(new Uri(pic), subFolder + node.Key + ".jpg");
-                            }
-                            catch
-                            {
-
-                            }
-                        });
-                    });
+                    if (pbProgress != null)
+                    {
+                        pbProgress.Report(("totalvalue", chapterIndex++));
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                if (infoProgress != null)
+                {
+                    infoProgress.Report(ee.ToString());
                 }
             }
 
