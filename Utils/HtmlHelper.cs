@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CloudflareSolverRe;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,56 @@ namespace Utils
             await client.GetAsync(url);
 
             return cookies;
+        }
+
+        public static async Task<string> GetCloudFlare(string url)
+        {
+            var target = new Uri(url);
+
+            var handler = new ClearanceHandler
+            {
+                MaxTries = 3,
+                ClearanceDelay = 3000
+            };
+
+            var client = new HttpClient(handler);
+            var content = await client.GetStringAsync(target);
+
+            return content;
+        }
+
+        public async static Task<string> PostCloudFlare(string url, object message)
+        {
+            var ret = "";
+
+            var target = new Uri(url);
+
+            var handler = new ClearanceHandler
+            {
+                MaxTries = 3,
+                ClearanceDelay = 3000
+            };
+
+            HttpRequestMessage requestMessage = new(HttpMethod.Post, target);
+
+            if (message != null)
+            {
+                string jsonContent = JsonConvert.SerializeObject(message);
+                requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            }
+
+            using (var client = new HttpClient(handler))
+            {
+                var response = await client.SendAsync(requestMessage);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    using var sr = new StreamReader(await response.Content.ReadAsStreamAsync(), Encoding.UTF8);
+                    ret = sr.ReadToEnd();
+                }
+            }
+
+            return ret;
         }
 
         public async static Task<string> GetUrlContent(string url, CookieContainer cookie = null)

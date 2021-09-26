@@ -12,48 +12,43 @@ using Utils;
 
 namespace Services.Manga
 {
-    public class Manhua123Info : IMangaInfo
+    class _18ComicVipInfo : IMangaInfo
     {
         public MangaInfo mi { get; set; }
 
-        public Manhua123Info() 
+        public _18ComicVipInfo()
         {
             mi = new MangaInfo();
         }
 
         public async Task AddAdditionalInfo()
         {
-            var htmlRet = await HtmlHelper.GetUrlContent(mi.MangeUrl, mi.Cc);
+            var htmlRet = await HtmlHelper.GetCloudFlare(mi.MangeUrl);
 
             if (!string.IsNullOrEmpty(htmlRet))
             {
                 HtmlDocument htmlDocument = new();
                 htmlDocument.LoadHtml(htmlRet);
-                var chapterPath = "//ul[@class='jslist01']//li";
-                var infoPath = "//div[@class='info l']//ul//li";
+                var chapterPath = "//div[@id='episode-block']//ul//a";
 
                 var chapterNodes = htmlDocument.DocumentNode.SelectNodes(chapterPath);
-                var infoNodes = htmlDocument.DocumentNode.SelectNodes(infoPath);
 
                 if (chapterNodes != null)
                 {
-                    foreach (var node in chapterNodes.Reverse())
+                    foreach (var node in chapterNodes)
                     {
-                        var aTag = node.ChildNodes.FindFirst("a");
+                        var subUrl = node.Attributes["href"].Value.Trim();
+                        var name = node.ChildNodes[1].InnerHtml.Trim();
 
-                        if (aTag != null)
+                        if (name.Contains("<span"))
                         {
-                            var subUrl = aTag.Attributes["href"].Value.Trim();
-                            var title = aTag.InnerHtml.Trim();
-
-                            mi.Urls.Add(new DetailUrl() { Title = title, Url = mi.MangaSite.IndexUrl + subUrl });
+                            name = name.Substring(0, name.IndexOf("<"));
                         }
-                    }
-                }
 
-                if (infoNodes != null && infoNodes.Any() && infoNodes.Count >= 6)
-                {
-                    mi.LastUpdateTimeStr = infoNodes[5].ChildNodes[1].InnerText;
+                        var title = name.Replace("\n", "");
+
+                        mi.Urls.Add(new DetailUrl() { Title = title, Url = mi.MangaSite.SitePrefix + subUrl });
+                    }
                 }
             }
         }
@@ -74,16 +69,31 @@ namespace Services.Manga
 
                 foreach (var url in downloadUrls)
                 {
-                    var htmlRet = await HtmlHelper.GetUrlContent(url.Url, mi.Cc);
+                    var htmlRet = await HtmlHelper.GetCloudFlare(url.Url);
 
                     if (!string.IsNullOrEmpty(htmlRet))
                     {
                         var subFolder = MangaService.GenerateSubFolder(rootFolder + FileUtility.ReplaceInvalidChar(url.Title) + Path.DirectorySeparatorChar);
 
-                        var picUrls = htmlRet.Substring(htmlRet.IndexOf("z_img='") + "z_img='".Length);
-                        picUrls = picUrls.Substring(0, picUrls.IndexOf("'"));
+                        List<string> pics = new();
+                        HtmlDocument htmlDocument = new();
+                        htmlDocument.LoadHtml(htmlRet);
+                        var picPath = "//div[@class='row thumb-overlay-albums']//div";
 
-                        var pics = JsonConvert.DeserializeObject<List<string>>(picUrls);
+                        var picNode = htmlDocument.DocumentNode.SelectNodes(picPath);
+
+                        foreach (var pic in picNode)
+                        {
+                            if (pic.Attributes["style"] != null && pic.Attributes["style"].Value.Trim() == "text-align:center;")
+                            {
+                                if (pic.ChildNodes.Count >= 5)
+                                {
+                                    var imgUrl = pic.ChildNodes[3].Attributes["data-original"].Value.Trim();
+
+                                    pics.Add(imgUrl.Substring(0, imgUrl.IndexOf("?")));
+                                }
+                            }
+                        }
 
                         Dictionary<int, string> picToBeDownloaded = new();
 
@@ -91,7 +101,7 @@ namespace Services.Manga
 
                         foreach (var p in pics)
                         {
-                            picToBeDownloaded.Add(index++, "https://img.xpelly.com/" + p);
+                            picToBeDownloaded.Add(index++, p);
                         }
 
                         int picIndex = 1;
@@ -99,7 +109,7 @@ namespace Services.Manga
 
                         await Task.Run(() =>
                         {
-                            Parallel.ForEach(picToBeDownloaded, new ParallelOptions { MaxDegreeOfParallelism = 10 }, node =>
+                            Parallel.ForEach(picToBeDownloaded, new ParallelOptions { MaxDegreeOfParallelism = 5 }, node =>
                             {
                                 var pic = node.Value;
 

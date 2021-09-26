@@ -22,7 +22,7 @@ namespace MangaDownloader
         #region 配置及变量
         private readonly string MangaSiteAssembly = "Services";
         private readonly string MangaSiteClassPathPrefix = "Services.Manga.";
-        private readonly List<string> MangaSiteList = new() { "Manhua123Site", "IKHMSite" };
+        private readonly List<string> MangaSiteList = new() { "Manhua123Site", "IKHMSite", "_18ComicVipSite" };
         private IMangaSite MangaSite;
         private IMangaInfo MangaInfo;
         private readonly MangaDAL business = new();

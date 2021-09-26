@@ -10,6 +10,9 @@ using Utils;
 using System.Linq;
 using Models;
 using Services.Manga;
+using System.Net;
+using System.Net.Http;
+using CloudflareSolverRe;
 
 namespace UnitTest
 {
@@ -17,7 +20,7 @@ namespace UnitTest
     {
         static void Main(string[] args)
         {
-            IMangaSite mangaSite = (IMangaSite)System.Reflection.Assembly.Load("Services").CreateInstance("Services.Manga.IKHMSite", false);
+            IMangaSite mangaSite = (IMangaSite)System.Reflection.Assembly.Load("Services").CreateInstance("Services.Manga._18ComicVipSite", false);
 
             var list = mangaSite.Search("傀儡").Result;
 
@@ -25,7 +28,7 @@ namespace UnitTest
 
             downloadMangaInfo.AddAdditionalInfo().Wait();
 
-            downloadMangaInfo.Download(@"C:\manga", downloadMangaInfo.mi.Urls.Take(3).ToList());
+            //downloadMangaInfo.Download(@"C:\manga", downloadMangaInfo.mi.Urls.Take(3).ToList());
 
             Console.WriteLine("按任意键退出");
             Console.ReadKey();
