@@ -192,33 +192,40 @@ namespace MangaDownloader
             MainSeachListView.Items.Clear();
             SearchImageList.Images.Clear();
 
-            var result = await MangaSite.Search(content);
-
-            if (result != null && result.Any())
+            try
             {
-                foreach (var res in result)
+                var result = await MangaSite.Search(content);
+
+                if (result != null && result.Any())
                 {
-                    using HttpClient c = new();
-                    try
+                    foreach (var res in result)
                     {
-                        using Stream s = await c.GetStreamAsync(res.mi.MangaPic);
-                        SearchImageList.Images.Add(res.mi.MangaName, Image.FromStream(s));
+                        using HttpClient c = new();
+                        try
+                        {
+                            using Stream s = await c.GetStreamAsync(res.mi.MangaPic);
+                            SearchImageList.Images.Add(res.mi.MangaName, Image.FromStream(s));
+                        }
+                        catch
+                        {
+
+                        }
+
+                        ListViewItem lvi = new(res.mi.MangaName);
+                        lvi.Tag = res.mi;
+
+                        lvi.ImageIndex = SearchImageList.Images.IndexOfKey(res.mi.MangaName);
+                        MainSeachListView.Items.Add(lvi);
                     }
-                    catch
-                    {
-
-                    }
-
-                    ListViewItem lvi = new(res.mi.MangaName);
-                    lvi.Tag = res.mi;
-
-                    lvi.ImageIndex = SearchImageList.Images.IndexOfKey(res.mi.MangaName);
-                    MainSeachListView.Items.Add(lvi);
+                }
+                else
+                {
+                    MessageBox.Show("没有找到所要搜索的漫画", "提示", MessageBoxButtons.OK);
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("没有找到所要搜索的漫画", "提示", MessageBoxButtons.OK);
+                MessageBox.Show("搜索出错了，请检查网络或者VPN状态", "警告", MessageBoxButtons.OK);
             }
         }
 
@@ -235,43 +242,50 @@ namespace MangaDownloader
             HistoryChapterText.Text = "";
             MainInfoText.Text = "";
 
-            await MangaInfo.AddAdditionalInfo();
-
-            using HttpClient c = new();
             try
             {
-                using Stream s = await c.GetStreamAsync(MangaInfo.mi.MangaPic);
-                MangaPictureBox.Image =  Image.FromStream(s);
+                await MangaInfo.AddAdditionalInfo();
+
+                using HttpClient c = new();
+                try
+                {
+                    using Stream s = await c.GetStreamAsync(MangaInfo.mi.MangaPic);
+                    MangaPictureBox.Image = Image.FromStream(s);
+                }
+                catch
+                {
+
+                }
+
+                var history = business.GetMangaHistory(MangaSite.siteModel.ShowTitle).FirstOrDefault(x => x.MangaName == MangaInfo.mi.MangaName);
+
+                WebPageText.Text = MangaInfo.mi.MangeUrl;
+                LastUpdateChapterText.Text = MangaInfo.mi.LastChapter;
+                LastUpdateTimeText.Text = MangaInfo.mi.LastUpdateTimeStr;
+
+                ChapterCountText.Text = MangaInfo.mi.Urls.Count + "章";
+                HistoryChapterText.Text = history == null ? "无" : history.DownloadedChapter.Count + "章";
+
+                await Task.Run(() =>
+                {
+                    foreach (var url in MangaInfo.mi.Urls)
+                    {
+                        ListViewItem lvi = new(url.Title);
+                        lvi.Tag = url;
+
+                        if (history != null && history.DownloadedChapter.Exists(x => x == url.Title))
+                        {
+                            lvi.BackColor = Color.Green;
+                        }
+
+                        report.Report(lvi);
+                    }
+                });
             }
             catch
             {
-
+                MessageBox.Show("查询漫画详情出错了，请检查网络或者VPN状态", "警告", MessageBoxButtons.OK);
             }
-
-            var history = business.GetMangaHistory(MangaSite.siteModel.ShowTitle).FirstOrDefault(x => x.MangaName == MangaInfo.mi.MangaName);
-
-            WebPageText.Text = MangaInfo.mi.MangeUrl;
-            LastUpdateChapterText.Text = MangaInfo.mi.LastChapter;
-            LastUpdateTimeText.Text = MangaInfo.mi.LastUpdateTimeStr;
-
-            ChapterCountText.Text = MangaInfo.mi.Urls.Count + "章";
-            HistoryChapterText.Text = history == null ? "无" : history.DownloadedChapter.Count + "章";
-
-            await Task.Run(() =>
-            {
-                foreach (var url in MangaInfo.mi.Urls)
-                {
-                    ListViewItem lvi = new(url.Title);
-                    lvi.Tag = url;
-
-                    if (history != null && history.DownloadedChapter.Exists(x => x == url.Title))
-                    {
-                        lvi.BackColor = Color.Green;
-                    }
-
-                    report.Report(lvi);
-                }
-            });
         }
 
         private void ChapterListViewAdd(object sender, ListViewItem e)
@@ -306,9 +320,22 @@ namespace MangaDownloader
 
                 var zip = zipFolder + MangaInfo.mi.MangaName + "_" + DateTime.Now.ToString("yyy-MM-dd-HH-mm-ss") + "-" + downloadList.Count + ".zip";
 
-                ZipFile.CreateFromDirectory(rootFolder, zip);
+                var zipSuccess = true;
 
-                MainInfoText.AppendText($"已经压缩到{zip}" + Environment.NewLine);
+                try
+                {
+                    ZipFile.CreateFromDirectory(rootFolder, zip);
+                }
+                catch
+                {
+                    zipSuccess = false;
+                    MainInfoText.AppendText($"压缩出错了，请手动压缩" + Environment.NewLine);
+                }
+
+                if (zipSuccess)
+                {
+                    MainInfoText.AppendText($"已经压缩到{zip}" + Environment.NewLine);
+                }
             }
             else
             {
