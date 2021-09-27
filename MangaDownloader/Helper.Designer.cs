@@ -43,15 +43,16 @@ namespace MangaDownloader
             this.HelperBottomPanel.Controls.Add(this.HelperCloseBtn);
             this.HelperBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.HelperBottomPanel.Location = new System.Drawing.Point(0, 275);
-            this.HelperBottomPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HelperBottomPanel.Margin = new System.Windows.Forms.Padding(2);
             this.HelperBottomPanel.Name = "HelperBottomPanel";
             this.HelperBottomPanel.Size = new System.Drawing.Size(431, 36);
             this.HelperBottomPanel.TabIndex = 0;
             // 
             // HelperCloseBtn
             // 
+            this.HelperCloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HelperCloseBtn.Location = new System.Drawing.Point(180, 2);
-            this.HelperCloseBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HelperCloseBtn.Margin = new System.Windows.Forms.Padding(2);
             this.HelperCloseBtn.Name = "HelperCloseBtn";
             this.HelperCloseBtn.Size = new System.Drawing.Size(71, 30);
             this.HelperCloseBtn.TabIndex = 0;
@@ -64,16 +65,19 @@ namespace MangaDownloader
             this.HelperMainPanel.Controls.Add(this.HelperText);
             this.HelperMainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.HelperMainPanel.Location = new System.Drawing.Point(0, 0);
-            this.HelperMainPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HelperMainPanel.Margin = new System.Windows.Forms.Padding(2);
             this.HelperMainPanel.Name = "HelperMainPanel";
             this.HelperMainPanel.Size = new System.Drawing.Size(431, 275);
             this.HelperMainPanel.TabIndex = 1;
             // 
             // HelperText
             // 
+            this.HelperText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.HelperText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.HelperText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HelperText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.HelperText.Location = new System.Drawing.Point(0, 0);
-            this.HelperText.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HelperText.Margin = new System.Windows.Forms.Padding(2);
             this.HelperText.Multiline = true;
             this.HelperText.Name = "HelperText";
             this.HelperText.ReadOnly = true;
@@ -86,10 +90,12 @@ namespace MangaDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(431, 311);
             this.Controls.Add(this.HelperMainPanel);
             this.Controls.Add(this.HelperBottomPanel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Helper";

@@ -42,55 +42,68 @@ namespace MangaDownloader
             // SettingMangaFolder
             // 
             this.SettingMangaFolder.AutoSize = true;
-            this.SettingMangaFolder.Location = new System.Drawing.Point(28, 56);
+            this.SettingMangaFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingMangaFolder.Location = new System.Drawing.Point(15, 34);
+            this.SettingMangaFolder.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SettingMangaFolder.Name = "SettingMangaFolder";
-            this.SettingMangaFolder.Size = new System.Drawing.Size(122, 28);
+            this.SettingMangaFolder.Size = new System.Drawing.Size(71, 17);
             this.SettingMangaFolder.TabIndex = 0;
             this.SettingMangaFolder.Text = "漫画根目录:";
             // 
             // SettingZipLabel
             // 
             this.SettingZipLabel.AutoSize = true;
-            this.SettingZipLabel.Location = new System.Drawing.Point(28, 126);
+            this.SettingZipLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingZipLabel.Location = new System.Drawing.Point(15, 76);
+            this.SettingZipLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SettingZipLabel.Name = "SettingZipLabel";
-            this.SettingZipLabel.Size = new System.Drawing.Size(122, 28);
+            this.SettingZipLabel.Size = new System.Drawing.Size(71, 17);
             this.SettingZipLabel.TabIndex = 1;
             this.SettingZipLabel.Text = "压缩包目录:";
             // 
             // SettingIsZipCB
             // 
             this.SettingIsZipCB.AutoSize = true;
-            this.SettingIsZipCB.Location = new System.Drawing.Point(28, 195);
+            this.SettingIsZipCB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.SettingIsZipCB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingIsZipCB.Location = new System.Drawing.Point(15, 118);
+            this.SettingIsZipCB.Margin = new System.Windows.Forms.Padding(2);
             this.SettingIsZipCB.Name = "SettingIsZipCB";
-            this.SettingIsZipCB.Size = new System.Drawing.Size(122, 32);
+            this.SettingIsZipCB.Size = new System.Drawing.Size(72, 21);
             this.SettingIsZipCB.TabIndex = 2;
             this.SettingIsZipCB.Text = "是否压缩";
-            this.SettingIsZipCB.UseVisualStyleBackColor = true;
+            this.SettingIsZipCB.UseVisualStyleBackColor = false;
             // 
             // SettingMangaFolderText
             // 
             this.SettingMangaFolderText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.SettingMangaFolderText.Location = new System.Drawing.Point(167, 53);
+            this.SettingMangaFolderText.BackColor = System.Drawing.Color.Gray;
+            this.SettingMangaFolderText.Location = new System.Drawing.Point(90, 32);
+            this.SettingMangaFolderText.Margin = new System.Windows.Forms.Padding(2);
             this.SettingMangaFolderText.Name = "SettingMangaFolderText";
-            this.SettingMangaFolderText.Size = new System.Drawing.Size(594, 34);
+            this.SettingMangaFolderText.Size = new System.Drawing.Size(322, 23);
             this.SettingMangaFolderText.TabIndex = 3;
             this.SettingMangaFolderText.Click += new System.EventHandler(this.SettingMangaFolderText_Click);
             // 
             // SettingZipFolderText
             // 
             this.SettingZipFolderText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.SettingZipFolderText.Location = new System.Drawing.Point(167, 123);
+            this.SettingZipFolderText.BackColor = System.Drawing.Color.Gray;
+            this.SettingZipFolderText.Location = new System.Drawing.Point(90, 75);
+            this.SettingZipFolderText.Margin = new System.Windows.Forms.Padding(2);
             this.SettingZipFolderText.Name = "SettingZipFolderText";
-            this.SettingZipFolderText.Size = new System.Drawing.Size(594, 34);
+            this.SettingZipFolderText.Size = new System.Drawing.Size(322, 23);
             this.SettingZipFolderText.TabIndex = 4;
             this.SettingZipFolderText.Click += new System.EventHandler(this.SettingZipFolderText_Click);
             // 
             // SettingCancelBtn
             // 
             this.SettingCancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SettingCancelBtn.Location = new System.Drawing.Point(483, 251);
+            this.SettingCancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingCancelBtn.Location = new System.Drawing.Point(260, 152);
+            this.SettingCancelBtn.Margin = new System.Windows.Forms.Padding(2);
             this.SettingCancelBtn.Name = "SettingCancelBtn";
-            this.SettingCancelBtn.Size = new System.Drawing.Size(131, 51);
+            this.SettingCancelBtn.Size = new System.Drawing.Size(71, 31);
             this.SettingCancelBtn.TabIndex = 5;
             this.SettingCancelBtn.Text = "取消(&C)";
             this.SettingCancelBtn.UseVisualStyleBackColor = true;
@@ -99,9 +112,11 @@ namespace MangaDownloader
             // SettingSaveBtn
             // 
             this.SettingSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SettingSaveBtn.Location = new System.Drawing.Point(630, 251);
+            this.SettingSaveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingSaveBtn.Location = new System.Drawing.Point(339, 152);
+            this.SettingSaveBtn.Margin = new System.Windows.Forms.Padding(2);
             this.SettingSaveBtn.Name = "SettingSaveBtn";
-            this.SettingSaveBtn.Size = new System.Drawing.Size(131, 51);
+            this.SettingSaveBtn.Size = new System.Drawing.Size(71, 31);
             this.SettingSaveBtn.TabIndex = 6;
             this.SettingSaveBtn.Text = "保存(&S)";
             this.SettingSaveBtn.UseVisualStyleBackColor = true;
@@ -113,9 +128,10 @@ namespace MangaDownloader
             // 
             // Setting
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 28F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 323);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.ClientSize = new System.Drawing.Size(431, 196);
             this.Controls.Add(this.SettingSaveBtn);
             this.Controls.Add(this.SettingCancelBtn);
             this.Controls.Add(this.SettingZipFolderText);
@@ -123,6 +139,8 @@ namespace MangaDownloader
             this.Controls.Add(this.SettingIsZipCB);
             this.Controls.Add(this.SettingZipLabel);
             this.Controls.Add(this.SettingMangaFolder);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Setting";

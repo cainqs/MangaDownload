@@ -159,7 +159,7 @@ namespace MangaDownloader
             { 
                 IMangaSite tempSite = (IMangaSite)System.Reflection.Assembly.Load(MangaSiteAssembly).CreateInstance(MangaSiteClassPathPrefix + site, false);
 
-                MainMangaSiteCombo.Items.Add(new MangaSiteComboItem (){ ShowTitle = tempSite.siteModel.ShowTitle, MangaInfoClassPath = MangaSiteClassPathPrefix + site.Replace("Site", "Info"), Tag = tempSite });
+                MainMangaSiteCombo.Items.Add(new MangaSiteComboItem (){ ShowTitle = $"{tempSite.siteModel.ShowTitle}({string.Join(",", tempSite.siteModel.Tags)})", MangaInfoClassPath = MangaSiteClassPathPrefix + site.Replace("Site", "Info"), Tag = tempSite });
             }
         }
 

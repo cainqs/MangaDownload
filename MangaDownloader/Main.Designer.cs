@@ -33,6 +33,7 @@ namespace MangaDownloader
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.帮助ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainSplit = new System.Windows.Forms.SplitContainer();
             this.MainLeftMainPanel = new System.Windows.Forms.Panel();
             this.MainSeachListView = new System.Windows.Forms.ListView();
@@ -71,7 +72,6 @@ namespace MangaDownloader
             this.下载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMainInfoPanel = new System.Windows.Forms.Panel();
             this.MainInfoText = new System.Windows.Forms.TextBox();
-            this.帮助ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainSplit)).BeginInit();
             this.MainSplit.Panel1.SuspendLayout();
@@ -117,6 +117,13 @@ namespace MangaDownloader
             this.帮助ToolStripMenuItem.Text = "关于";
             this.帮助ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
             // 
+            // 帮助ToolStripMenuItem1
+            // 
+            this.帮助ToolStripMenuItem1.Name = "帮助ToolStripMenuItem1";
+            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(44, 22);
+            this.帮助ToolStripMenuItem1.Text = "帮助";
+            this.帮助ToolStripMenuItem1.Click += new System.EventHandler(this.帮助ToolStripMenuItem1_Click);
+            // 
             // MainSplit
             // 
             this.MainSplit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -149,8 +156,11 @@ namespace MangaDownloader
             // 
             // MainSeachListView
             // 
+            this.MainSeachListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MainSeachListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.MainSeachListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.MainSeachListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainSeachListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainSeachListView.HideSelection = false;
             this.MainSeachListView.LargeImageList = this.SearchImageList;
             this.MainSeachListView.Location = new System.Drawing.Point(0, 0);
@@ -188,6 +198,9 @@ namespace MangaDownloader
             // MainHistoryCombo
             // 
             this.MainHistoryCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainHistoryCombo.BackColor = System.Drawing.Color.Gray;
+            this.MainHistoryCombo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MainHistoryCombo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainHistoryCombo.FormattingEnabled = true;
             this.MainHistoryCombo.Location = new System.Drawing.Point(73, 43);
             this.MainHistoryCombo.Margin = new System.Windows.Forms.Padding(2);
@@ -209,6 +222,7 @@ namespace MangaDownloader
             // MainSearchBtn
             // 
             this.MainSearchBtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.MainSearchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.MainSearchBtn.Location = new System.Drawing.Point(214, 72);
             this.MainSearchBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MainSearchBtn.Name = "MainSearchBtn";
@@ -221,6 +235,8 @@ namespace MangaDownloader
             // MainSearchContent
             // 
             this.MainSearchContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainSearchContent.BackColor = System.Drawing.Color.Gray;
+            this.MainSearchContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainSearchContent.Location = new System.Drawing.Point(73, 76);
             this.MainSearchContent.Margin = new System.Windows.Forms.Padding(2);
             this.MainSearchContent.Name = "MainSearchContent";
@@ -240,6 +256,9 @@ namespace MangaDownloader
             // MainMangaSiteCombo
             // 
             this.MainMangaSiteCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainMangaSiteCombo.BackColor = System.Drawing.Color.Gray;
+            this.MainMangaSiteCombo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.MainMangaSiteCombo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainMangaSiteCombo.FormattingEnabled = true;
             this.MainMangaSiteCombo.Location = new System.Drawing.Point(73, 10);
             this.MainMangaSiteCombo.Margin = new System.Windows.Forms.Padding(2);
@@ -309,6 +328,8 @@ namespace MangaDownloader
             // 
             this.HistoryChapterText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.HistoryChapterText.BackColor = System.Drawing.Color.Gray;
+            this.HistoryChapterText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.HistoryChapterText.Location = new System.Drawing.Point(60, 148);
             this.HistoryChapterText.Margin = new System.Windows.Forms.Padding(2);
             this.HistoryChapterText.Name = "HistoryChapterText";
@@ -330,6 +351,8 @@ namespace MangaDownloader
             // 
             this.ChapterCountText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ChapterCountText.BackColor = System.Drawing.Color.Gray;
+            this.ChapterCountText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.ChapterCountText.Location = new System.Drawing.Point(59, 115);
             this.ChapterCountText.Margin = new System.Windows.Forms.Padding(2);
             this.ChapterCountText.Name = "ChapterCountText";
@@ -351,6 +374,8 @@ namespace MangaDownloader
             // 
             this.LastUpdateTimeText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.LastUpdateTimeText.BackColor = System.Drawing.Color.Gray;
+            this.LastUpdateTimeText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.LastUpdateTimeText.Location = new System.Drawing.Point(59, 80);
             this.LastUpdateTimeText.Margin = new System.Windows.Forms.Padding(2);
             this.LastUpdateTimeText.Name = "LastUpdateTimeText";
@@ -372,6 +397,8 @@ namespace MangaDownloader
             // 
             this.LastUpdateChapterText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.LastUpdateChapterText.BackColor = System.Drawing.Color.Gray;
+            this.LastUpdateChapterText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.LastUpdateChapterText.Location = new System.Drawing.Point(60, 44);
             this.LastUpdateChapterText.Margin = new System.Windows.Forms.Padding(2);
             this.LastUpdateChapterText.Name = "LastUpdateChapterText";
@@ -393,6 +420,8 @@ namespace MangaDownloader
             // 
             this.WebPageText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.WebPageText.BackColor = System.Drawing.Color.Gray;
+            this.WebPageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.WebPageText.Location = new System.Drawing.Point(59, 7);
             this.WebPageText.Margin = new System.Windows.Forms.Padding(2);
             this.WebPageText.Name = "WebPageText";
@@ -419,6 +448,7 @@ namespace MangaDownloader
             this.TotalPB.Margin = new System.Windows.Forms.Padding(2);
             this.TotalPB.Name = "TotalPB";
             this.TotalPB.Size = new System.Drawing.Size(181, 17);
+            this.TotalPB.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.TotalPB.TabIndex = 3;
             // 
             // CurrentPB
@@ -430,6 +460,7 @@ namespace MangaDownloader
             this.CurrentPB.Margin = new System.Windows.Forms.Padding(2);
             this.CurrentPB.Name = "CurrentPB";
             this.CurrentPB.Size = new System.Drawing.Size(181, 17);
+            this.CurrentPB.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.CurrentPB.TabIndex = 2;
             // 
             // TotalLabel
@@ -486,12 +517,16 @@ namespace MangaDownloader
             // 
             // MainChapterListView
             // 
+            this.MainChapterListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MainChapterListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MainChapterListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Chapter});
             this.MainChapterListView.ContextMenuStrip = this.ChapterListViewMenu;
             this.MainChapterListView.Cursor = System.Windows.Forms.Cursors.Default;
             this.MainChapterListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainChapterListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainChapterListView.FullRowSelect = true;
+            this.MainChapterListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.MainChapterListView.HideSelection = false;
             this.MainChapterListView.Location = new System.Drawing.Point(0, 0);
             this.MainChapterListView.Margin = new System.Windows.Forms.Padding(2);
@@ -533,8 +568,10 @@ namespace MangaDownloader
             // 
             // MainInfoText
             // 
+            this.MainInfoText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.MainInfoText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.MainInfoText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainInfoText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainInfoText.Location = new System.Drawing.Point(0, 0);
             this.MainInfoText.Margin = new System.Windows.Forms.Padding(2);
             this.MainInfoText.Multiline = true;
@@ -543,20 +580,15 @@ namespace MangaDownloader
             this.MainInfoText.Size = new System.Drawing.Size(237, 564);
             this.MainInfoText.TabIndex = 0;
             // 
-            // 帮助ToolStripMenuItem1
-            // 
-            this.帮助ToolStripMenuItem1.Name = "帮助ToolStripMenuItem1";
-            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(44, 22);
-            this.帮助ToolStripMenuItem1.Text = "帮助";
-            this.帮助ToolStripMenuItem1.Click += new System.EventHandler(this.帮助ToolStripMenuItem1_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1036, 590);
             this.Controls.Add(this.MainSplit);
             this.Controls.Add(this.menuStrip1);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Main";
