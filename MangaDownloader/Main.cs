@@ -318,7 +318,7 @@ namespace MangaDownloader
             {
                 MainInfoText.AppendText($"设置为压缩，现在开始压缩 {rootFolder} 到 {zipFolder} " + Environment.NewLine);
 
-                var zip = zipFolder + MangaInfo.mi.MangaName + "_" + DateTime.Now.ToString("yyy-MM-dd-HH-mm-ss") + "-" + downloadList.Count + ".zip";
+                var zip = zipFolder + MangaInfo.mi.MangaName + "_" + DateTime.Now.ToString("yyy-MM-dd-HH-mm-ss") + "_" + downloadList.Count + ".zip";
 
                 var zipSuccess = true;
 
