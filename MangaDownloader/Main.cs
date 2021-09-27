@@ -395,6 +395,5 @@ namespace MangaDownloader
             }
         }
         #endregion
-
     }
 }
