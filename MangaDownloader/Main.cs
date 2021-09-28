@@ -223,9 +223,9 @@ namespace MangaDownloader
                     MessageBox.Show("没有找到所要搜索的漫画", "提示", MessageBoxButtons.OK);
                 }
             }
-            catch
+            catch(Exception ee)
             {
-                MessageBox.Show("搜索出错了，请检查网络或者VPN状态", "警告", MessageBoxButtons.OK);
+                MessageBox.Show($"搜索出错了，请检查网络或者VPN状态\r\n{ee}", "警告", MessageBoxButtons.OK);
             }
         }
 
@@ -282,9 +282,9 @@ namespace MangaDownloader
                     }
                 });
             }
-            catch
+            catch(Exception ee)
             {
-                MessageBox.Show("查询漫画详情出错了，请检查网络或者VPN状态", "警告", MessageBoxButtons.OK);
+                MessageBox.Show($"查询漫画详情出错了，请检查网络或者VPN状态\r\n{ee}", "警告", MessageBoxButtons.OK);
             }
         }
 
